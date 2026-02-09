@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.domain;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

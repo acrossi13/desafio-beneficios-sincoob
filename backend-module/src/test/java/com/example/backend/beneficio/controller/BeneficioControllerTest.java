@@ -1,5 +1,8 @@
-package com.example.backend;
+package com.example.backend.beneficio.controller;
 
+import com.example.backend.controller.BeneficioController;
+import com.example.backend.domain.BeneficioEntity;
+import com.example.backend.repository.BeneficioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +25,8 @@ class BeneficioControllerTest {
 
     @Autowired MockMvc mvc;
     @Autowired ObjectMapper om;
-    @Autowired BeneficioRepository repo;
+    @Autowired
+    BeneficioRepository repo;
 
     private BeneficioEntity b1;
     private BeneficioEntity b2;
@@ -48,14 +52,14 @@ class BeneficioControllerTest {
 
     @Test
     void shouldListBenefits() throws Exception {
-        mvc.perform(get("/api/v1/beneficios"))
+        mvc.perform(get("/api/beneficios"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @Test
     void shouldGetBenefitById() throws Exception {
-        mvc.perform(get("/api/v1/beneficios/{id}", b1.getId()))
+        mvc.perform(get("/api/beneficios/{id}", b1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(b1.getId().intValue())))
                 .andExpect(jsonPath("$.nome", is("A")));
@@ -69,7 +73,7 @@ class BeneficioControllerTest {
         payload.setValor(new BigDecimal("10.00"));
         payload.setAtivo(true);
 
-        mvc.perform(post("/api/v1/beneficios")
+        mvc.perform(post("/api/beneficios")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(om.writeValueAsString(payload)))
                 .andExpect(status().isCreated())
@@ -85,7 +89,7 @@ class BeneficioControllerTest {
         payload.setValor(new BigDecimal("101.00"));
         payload.setAtivo(false);
 
-        mvc.perform(put("/api/v1/beneficios/{id}", b1.getId())
+        mvc.perform(put("/api/beneficios/{id}", b1.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(om.writeValueAsString(payload)))
                 .andExpect(status().isOk())
@@ -95,7 +99,7 @@ class BeneficioControllerTest {
 
     @Test
     void shouldDeleteBenefit() throws Exception {
-        mvc.perform(delete("/api/v1/beneficios/{id}", b1.getId()))
+        mvc.perform(delete("/api/beneficios/{id}", b1.getId()))
                 .andExpect(status().isNoContent());
     }
 
@@ -103,7 +107,7 @@ class BeneficioControllerTest {
     void shouldTransferAndReturnNoContent() throws Exception {
         var req = new BeneficioController.TransferRequest(b1.getId(), b2.getId(), new BigDecimal("30.00"));
 
-        mvc.perform(post("/api/v1/beneficios/transfer")
+        mvc.perform(post("/api/beneficios/transfer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(om.writeValueAsString(req)))
                 .andExpect(status().isNoContent());

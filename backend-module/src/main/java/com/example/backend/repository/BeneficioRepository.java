@@ -1,5 +1,6 @@
-package com.example.backend;
+package com.example.backend.repository;
 
+import com.example.backend.domain.BeneficioEntity;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;

@@ -1,5 +1,7 @@
-package com.example.backend;
+package com.example.backend.service;
 
+import com.example.backend.domain.BeneficioEntity;
+import com.example.backend.repository.BeneficioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,8 @@ public class BeneficioService {
     }
 
     public BeneficioEntity findById(Long id) {
-        return repo.findById(id).orElseThrow();
+        return repo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("benefício não encontrado: " + id));
     }
 
     @Transactional
@@ -32,6 +35,9 @@ public class BeneficioService {
 
     @Transactional
     public BeneficioEntity update(Long id, BeneficioEntity e) {
+        if (!repo.existsById(id)) {
+            throw new EntityNotFoundException("benefício não encontrado: " + id);
+        }
         BeneficioEntity current = findById(id);
         current.setNome(e.getNome());
         current.setValor(e.getValor());
@@ -40,6 +46,9 @@ public class BeneficioService {
 
     @Transactional
     public void delete(Long id) {
+        if (!repo.existsById(id)) {
+            throw new EntityNotFoundException("benefício não encontrado: " + id);
+        }
         repo.deleteById(id);
     }
 

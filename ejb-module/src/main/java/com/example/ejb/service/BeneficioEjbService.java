@@ -1,5 +1,6 @@
-package com.example.ejb;
+package com.example.ejb.service;
 
+import com.example.ejb.Beneficio;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;

@@ -1,5 +1,8 @@
-package com.example.backend;
+package com.example.backend.beneficio.service;
 
+import com.example.backend.domain.BeneficioEntity;
+import com.example.backend.repository.BeneficioRepository;
+import com.example.backend.service.BeneficioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class BeneficioServiceTest {
 
-    @Autowired BeneficioService service;
-    @Autowired BeneficioRepository repo;
+    @Autowired
+    BeneficioService service;
+    @Autowired
+    BeneficioRepository repo;
 
     private BeneficioEntity b1;
     private BeneficioEntity b2;

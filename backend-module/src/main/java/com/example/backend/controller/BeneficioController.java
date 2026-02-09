@@ -1,5 +1,7 @@
-package com.example.backend;
+package com.example.backend.controller;
 
+import com.example.backend.domain.BeneficioEntity;
+import com.example.backend.service.BeneficioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/v1/beneficios")
+@RequestMapping("/api/beneficios")
 public class BeneficioController {
 
     private final BeneficioService service;
