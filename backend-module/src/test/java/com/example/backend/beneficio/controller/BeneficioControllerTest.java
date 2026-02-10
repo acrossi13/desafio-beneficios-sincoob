@@ -1,8 +1,8 @@
 package com.example.backend.beneficio.controller;
 
-import com.example.backend.controller.BeneficioController;
-import com.example.backend.domain.BeneficioEntity;
-import com.example.backend.repository.BeneficioRepository;
+import com.example.backend.beneficio.api.domain.BeneficioEntity;
+import com.example.backend.beneficio.api.dto.TransferRequest;
+import com.example.backend.beneficio.api.repository.BeneficioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -105,7 +105,7 @@ class BeneficioControllerTest {
 
     @Test
     void shouldTransferAndReturnNoContent() throws Exception {
-        var req = new BeneficioController.TransferRequest(b1.getId(), b2.getId(), new BigDecimal("30.00"));
+        var req = new TransferRequest(b1.getId(), b2.getId(), new BigDecimal("30.00"));
 
         mvc.perform(post("/api/beneficios/transfer")
                         .contentType(MediaType.APPLICATION_JSON)

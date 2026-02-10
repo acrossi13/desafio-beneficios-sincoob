@@ -1,4 +1,4 @@
-package com.example.backend.domain;
+package com.example.backend.beneficio.api.domain;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -43,4 +43,8 @@ public class BeneficioEntity {
 
     public Long getVersion() { return version; }
     public void setVersion(Long version) { this.version = version; }
+
+    public boolean isAtivo() {
+        return false;
+    }
 }

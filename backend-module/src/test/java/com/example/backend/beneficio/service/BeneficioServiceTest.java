@@ -1,13 +1,15 @@
 package com.example.backend.beneficio.service;
 
-import com.example.backend.domain.BeneficioEntity;
-import com.example.backend.repository.BeneficioRepository;
-import com.example.backend.service.BeneficioService;
+import com.example.backend.beneficio.api.dto.BeneficioRequest;
+import com.example.backend.beneficio.api.service.BeneficioService;
+import com.example.backend.beneficio.api.domain.BeneficioEntity;
+import com.example.backend.beneficio.api.repository.BeneficioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +19,7 @@ class BeneficioServiceTest {
 
     @Autowired
     BeneficioService service;
+
     @Autowired
     BeneficioRepository repo;
 
@@ -49,8 +52,8 @@ class BeneficioServiceTest {
         var from = repo.findById(b1.getId()).orElseThrow();
         var to = repo.findById(b2.getId()).orElseThrow();
 
-        assertEquals(new BigDecimal("70.00"), from.getValor());
-        assertEquals(new BigDecimal("80.00"), to.getValor());
+        assertEquals(0, from.getValor().compareTo(new BigDecimal("70.00")));
+        assertEquals(0, to.getValor().compareTo(new BigDecimal("80.00")));
     }
 
     @Test
@@ -81,34 +84,39 @@ class BeneficioServiceTest {
 
     @Test
     void shouldFailWhenAnyAccountDoesNotExist() {
-        assertThrows(jakarta.persistence.EntityNotFoundException.class,
+        assertThrows(EntityNotFoundException.class,
                 () -> service.transfer(999L, b2.getId(), new BigDecimal("1.00")));
-        assertThrows(jakarta.persistence.EntityNotFoundException.class,
+        assertThrows(EntityNotFoundException.class,
                 () -> service.transfer(b1.getId(), 999L, new BigDecimal("1.00")));
     }
 
     @Test
     void shouldCreateUpdateAndDeleteBenefit() {
-        var created = new BeneficioEntity();
-        created.setNome("C");
-        created.setDescricao("desc C");
-        created.setValor(new BigDecimal("10.00"));
-        created.setAtivo(true);
+        var created = new BeneficioRequest(
+        "C",
+        "desc C",
+        new BigDecimal("10.00"),
+        true);
 
         var saved = service.create(created);
-        assertNotNull(saved.getId());
+        assertNotNull(saved.id());
 
-        var patch = new BeneficioEntity();
-        patch.setNome("C2");
-        patch.setDescricao("desc C2");
-        patch.setValor(new BigDecimal("11.00"));
-        patch.setAtivo(false);
+        var patch = new BeneficioRequest("C2",
+                "desc C2",
+                new BigDecimal("11.00"),
+                false);
 
-        var updated = service.update(saved.getId(), patch);
-        assertEquals("C2", updated.getNome());
-        assertEquals(new BigDecimal("11.00"), updated.getValor());
+        var updated = service.update(saved.id(), patch);
+        assertEquals("C2", updated.nome());
+        assertEquals(0, updated.valor().compareTo(new BigDecimal("11.00")));
+        assertFalse(updated.ativo());
 
-        service.delete(saved.getId());
-        assertTrue(repo.findById(saved.getId()).isEmpty());
+        service.delete(saved.id());
+        assertTrue(repo.findById(saved.id()).isEmpty());
+    }
+
+    @Test
+    void shouldFailDeleteWhenBenefitDoesNotExist() {
+        assertThrows(EntityNotFoundException.class, () -> service.delete(999L));
     }
 }

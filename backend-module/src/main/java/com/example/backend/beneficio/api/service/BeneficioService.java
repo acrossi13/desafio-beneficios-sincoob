@@ -1,7 +1,11 @@
-package com.example.backend.service;
+package com.example.backend.beneficio.api.service;
 
-import com.example.backend.domain.BeneficioEntity;
-import com.example.backend.repository.BeneficioRepository;
+import com.example.backend.beneficio.api.domain.BeneficioEntity;
+import com.example.backend.beneficio.api.dto.BeneficioMapper;
+import com.example.backend.beneficio.api.dto.BeneficioRequest;
+import com.example.backend.beneficio.api.dto.BeneficioResponse;
+import com.example.backend.beneficio.api.repository.BeneficioRepository;
+import com.example.ejb.Beneficio;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -14,34 +18,48 @@ public class BeneficioService {
 
     private final BeneficioRepository repo;
 
+    private static BeneficioResponse toResponse(BeneficioEntity e) {
+        return new BeneficioResponse(e.getId(), e.getNome(), e.getDescricao(), e.getValor(), e.isAtivo(), e.getVersion());
+    }
+
 
     public BeneficioService(BeneficioRepository repo) {
         this.repo = repo;
     }
 
-    public List<BeneficioEntity> findAll() {
-        return repo.findAll();
+    @Transactional
+    public List<BeneficioResponse> findAll() {
+        return repo.findAll().stream().map(BeneficioMapper::toResponse).toList();
     }
 
-    public BeneficioEntity findById(Long id) {
-        return repo.findById(id)
+    @Transactional
+    public BeneficioResponse findById(Long id) {
+        var e = repo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("benefício não encontrado: " + id));
+        return toResponse(e);
     }
 
     @Transactional
-    public BeneficioEntity create(BeneficioEntity e) {
-        return repo.save(e);
+    public BeneficioResponse create(BeneficioRequest req) {
+        var e = new BeneficioEntity();
+        e.setNome(req.nome());
+        e.setDescricao(req.descricao());
+        e.setValor(req.valor());
+        e.setAtivo(req.ativo() == null || req.ativo());
+        var saved = repo.save(e);
+        return toResponse(saved);
     }
 
     @Transactional
-    public BeneficioEntity update(Long id, BeneficioEntity e) {
-        if (!repo.existsById(id)) {
-            throw new EntityNotFoundException("benefício não encontrado: " + id);
-        }
-        BeneficioEntity current = findById(id);
-        current.setNome(e.getNome());
-        current.setValor(e.getValor());
-        return repo.save(current);
+    public BeneficioResponse update(Long id, BeneficioRequest req) {
+        var e = repo.findById(id).orElseThrow(() -> new EntityNotFoundException("benefício não encontrado: " + id));
+
+        e.setNome(req.nome());
+        e.setDescricao(req.descricao());
+        e.setValor(req.valor());
+        if (req.ativo() != null) e.setAtivo(req.ativo());
+
+        return toResponse(repo.save(e));
     }
 
     @Transactional
