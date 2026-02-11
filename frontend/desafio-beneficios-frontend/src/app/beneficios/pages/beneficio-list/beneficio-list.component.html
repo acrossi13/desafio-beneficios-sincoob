@@ -1,0 +1,25 @@
+<h1>Benefícios</h1>
+
+<table cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Descrição</th>
+      <th>Valor</th>
+      <th>Ativo</th>
+      <th>Versão</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let b of (beneficios$ | async)">
+      <td>{{ b.id }}</td>
+      <td>{{ b.nome }}</td>
+      <td>{{ b.descricao }}</td>
+      <td>{{ b.valor }}</td>
+      <td>{{ b.ativo }}</td>
+      <td>{{ b.version }}</td>
+    </tr>
+  </tbody>
+</table>

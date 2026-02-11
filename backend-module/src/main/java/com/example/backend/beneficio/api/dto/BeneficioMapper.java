@@ -11,7 +11,7 @@ public final class BeneficioMapper {
                 e.getNome(),
                 e.getDescricao(),
                 e.getValor(),
-                e.isAtivo(),
+                e.getAtivo(),
                 e.getVersion()
         );
     }

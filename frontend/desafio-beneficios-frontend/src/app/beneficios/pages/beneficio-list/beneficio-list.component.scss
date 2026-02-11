@@ -1,0 +1,150 @@
+/* lista — aplica o “padrão” no HTML simples (h1 + table com border) */
+
+:host {
+  display: block;
+}
+
+h1 {
+  margin: 0 0 16px;
+  letter-spacing: .2px;
+  font-size: 30px;
+}
+
+/* “card” ao redor da tabela */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+
+  /* remove os atributos antigos do HTML */
+  border: 0 !important;
+  border-spacing: 0 !important;
+
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+/* header */
+thead th {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,.02);
+}
+
+/* body */
+tbody td {
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  vertical-align: middle;
+}
+
+/* hover row */
+tbody tr:hover td {
+  background: rgba(255,255,255,.03);
+}
+
+/* última linha sem border */
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* colunas numéricas melhor alinhadas */
+tbody td:nth-child(1),
+tbody td:nth-child(4),
+tbody td:nth-child(6) {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* valor alinhado à direita */
+tbody td:nth-child(4) {
+  text-align: right;
+}
+
+/* descrição mais “muted” */
+tbody td:nth-child(3) {
+  color: var(--muted);
+}
+
+/* “badge” simples para o booleano sem mudar o HTML */
+tbody td:nth-child(5) {
+  white-space: nowrap;
+}
+
+tbody td:nth-child(5)::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+  background: var(--warning);
+  vertical-align: middle;
+}
+
+/* tenta inferir true/false do texto exibido */
+tbody td:nth-child(5):has(:is(*))::before {
+  /* no-op: evita warning em alguns builders */
+}
+
+tbody td:nth-child(5):is(:contains("true"), :contains("True"), :contains("sim"), :contains("Sim"))::before {
+  background: var(--success);
+}
+tbody td:nth-child(5):is(:contains("false"), :contains("False"), :contains("não"), :contains("Não"))::before {
+  background: var(--danger);
+}
+
+/* responsivo: tabela vira “cards” no mobile */
+@media (max-width: 760px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  table {
+    padding: 10px;
+  }
+
+  tbody tr {
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    background: rgba(255,255,255,.02);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  tbody td {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 10px 12px;
+  }
+
+  tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  tbody td:nth-child(1)::before { content: "ID"; color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: .3px; }
+  tbody td:nth-child(2)::before { content: "Nome"; color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: .3px; }
+  tbody td:nth-child(3)::before { content: "Descrição"; color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: .3px; }
+  tbody td:nth-child(4)::before { content: "Valor"; color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: .3px; }
+  tbody td:nth-child(5)::before { content: "Ativo"; color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: .3px; }
+  tbody td:nth-child(6)::before { content: "Versão"; color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spacing: .3px; }
+
+  /* desliga alinhamentos no mobile */
+  tbody td:nth-child(4) {
+    text-align: left;
+  }
+}

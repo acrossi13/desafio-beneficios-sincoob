@@ -1,0 +1,41 @@
+<section class="page">
+  <header class="header">
+    <h1>{{ isEdit ? 'Editar benefício' : 'Novo benefício' }}</h1>
+
+    <div class="actions">
+      <button class="btn" type="button" (click)="cancel()" [disabled]="saving">Cancelar</button>
+      <button class="btn primary" type="submit" form="beneficioForm" [disabled]="saving">
+        {{ saving ? 'Salvando…' : (isEdit ? 'Atualizar' : 'Criar') }}
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="success" class="alert success">{{ success }}</div>
+  <div *ngIf="error" class="alert error">{{ error }}</div>
+
+  <form id="beneficioForm" class="card form-grid" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field span-6">
+      <label for="nome">Nome</label>
+      <input id="nome" type="text" formControlName="nome" placeholder="Ex: Vale Alimentação" />
+    </div>
+
+    <div class="field span-6">
+      <label for="valor">Valor</label>
+      <input id="valor" type="number" inputmode="decimal" step="0.01" formControlName="valor" placeholder="0.00" />
+    </div>
+
+    <div class="field span-12">
+      <label for="descricao">Descrição</label>
+      <textarea id="descricao" formControlName="descricao" placeholder="Detalhes do benefício..."></textarea>
+    </div>
+
+    <div class="field span-12">
+      <label class="switch">
+        <input type="checkbox" formControlName="ativo" />
+        <span class="track" aria-hidden="true"></span>
+        <span class="text">Ativo</span>
+      </label>
+      <small class="hint">Se desativar, o benefício permanece salvo mas não fica ativo.</small>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,9 @@
+<nav style="display:flex; gap:12px; padding:12px; border-bottom:1px solid #ddd;">
+  <a routerLink="/beneficios" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Lista</a>
+  <a routerLink="/beneficios/novo" routerLinkActive="active">Novo</a>
+  <a routerLink="/beneficios/transfer" routerLinkActive="active">Transferência</a>
+</nav>
+
+<main style="padding:16px;">
+  <router-outlet></router-outlet>
+</main>

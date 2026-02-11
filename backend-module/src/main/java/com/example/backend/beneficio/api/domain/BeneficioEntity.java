@@ -20,7 +20,7 @@ public class BeneficioEntity {
     @Column(nullable=false, precision = 15, scale = 2)
     private BigDecimal valor;
 
-    @Column(nullable=false)
+    @Column(name = "ATIVO", nullable = false)
     private Boolean ativo = true;
 
     @Version
@@ -44,7 +44,4 @@ public class BeneficioEntity {
     public Long getVersion() { return version; }
     public void setVersion(Long version) { this.version = version; }
 
-    public boolean isAtivo() {
-        return false;
-    }
 }

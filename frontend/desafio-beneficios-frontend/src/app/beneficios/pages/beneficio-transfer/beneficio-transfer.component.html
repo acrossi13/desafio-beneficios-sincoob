@@ -1,0 +1,31 @@
+<section class="page">
+  <header class="header">
+    <h1>Transferência</h1>
+    <div class="actions">
+      <button class="btn" type="button" (click)="cancel()" [disabled]="saving">Cancelar</button>
+    </div>
+  </header>
+
+  <form class="card" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field">
+      <label for="fromId">From (ID)</label>
+      <input id="fromId" type="number" formControlName="fromId" />
+    </div>
+
+    <div class="field">
+      <label for="toId">To (ID)</label>
+      <input id="toId" type="number" formControlName="toId" />
+    </div>
+
+    <div class="field">
+      <label for="valor">Valor</label>
+      <input id="valor" type="number" formControlName="valor" />
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" type="submit" [disabled]="saving">
+        {{ saving ? 'Transferindo…' : 'Transferir' }}
+      </button>
+    </div>
+  </form>
+</section>

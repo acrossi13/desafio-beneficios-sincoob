@@ -19,7 +19,7 @@ public class BeneficioService {
     private final BeneficioRepository repo;
 
     private static BeneficioResponse toResponse(BeneficioEntity e) {
-        return new BeneficioResponse(e.getId(), e.getNome(), e.getDescricao(), e.getValor(), e.isAtivo(), e.getVersion());
+        return new BeneficioResponse(e.getId(), e.getNome(), e.getDescricao(), e.getValor(), e.getAtivo(), e.getVersion());
     }
 
 
