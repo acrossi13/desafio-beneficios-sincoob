@@ -57,8 +57,9 @@
     background: rgba(53,208,127,.9);
   }
 
-  .text {
-    color: var(--text);
-    font-weight: 600;
+  .info {
+     position: absolute;
+    opacity: 0;
+    pointer-events: none;
   }
 }

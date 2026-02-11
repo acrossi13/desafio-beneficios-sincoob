@@ -15,7 +15,7 @@ export interface BeneficioRequest {
 }
 
 export interface TransferRequest {
-  fromId: number;
-  toId: number;
-  valor: number;
+  fromId: number | null;
+  toId: number | null;
+  valor: number | null;
 }

@@ -72,7 +72,7 @@ export class BeneficioFormComponent {
 
     req$.subscribe({
       next: () => {
-        this.success = this.isEdit ? 'Benefício atualizado.' : 'Benefício criado.';
+        this.success = this.isEdit ? 'Benefício atualizado.' : 'Benefício criado com sucesso.';
         this.saving = false;
         if (!this.isEdit) this.form.reset({ ativo: true, valor: 0 });
       },

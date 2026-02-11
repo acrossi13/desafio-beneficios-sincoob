@@ -1,12 +1,18 @@
 <section class="page">
   <header class="header">
     <h1>Transferência</h1>
+
     <div class="actions">
-      <button class="btn" type="button" (click)="cancel()" [disabled]="saving">Cancelar</button>
+      <button class="btn primary" type="button" (click)="submit()" [disabled]="saving">
+        {{ saving ? 'Transferindo…' : 'Transferir' }}
+      </button>
+      <button class="btn danger" type="button" (click)="cancel()" [disabled]="saving">
+        Cancelar
+      </button>
     </div>
   </header>
 
-  <form class="card" [formGroup]="form" (ngSubmit)="submit()">
+  <form class="card" [formGroup]="form">
     <div class="field">
       <label for="fromId">From (ID)</label>
       <input id="fromId" type="number" formControlName="fromId" />
@@ -22,10 +28,7 @@
       <input id="valor" type="number" formControlName="valor" />
     </div>
 
-    <div class="actions">
-      <button class="btn primary" type="submit" [disabled]="saving">
-        {{ saving ? 'Transferindo…' : 'Transferir' }}
-      </button>
-    </div>
+    <div *ngIf="success" class="alert success">{{ success }}</div>
+    <div *ngIf="error" class="alert error">{{ error }}</div>
   </form>
 </section>

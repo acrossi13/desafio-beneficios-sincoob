@@ -3,15 +3,12 @@
     <h1>{{ isEdit ? 'Editar benefício' : 'Novo benefício' }}</h1>
 
     <div class="actions">
-      <button class="btn" type="button" (click)="cancel()" [disabled]="saving">Cancelar</button>
       <button class="btn primary" type="submit" form="beneficioForm" [disabled]="saving">
         {{ saving ? 'Salvando…' : (isEdit ? 'Atualizar' : 'Criar') }}
       </button>
+      <button class="btn danger" type="button" (click)="cancel()" [disabled]="saving">Cancelar</button>
     </div>
   </header>
-
-  <div *ngIf="success" class="alert success">{{ success }}</div>
-  <div *ngIf="error" class="alert error">{{ error }}</div>
 
   <form id="beneficioForm" class="card form-grid" [formGroup]="form" (ngSubmit)="submit()">
     <div class="field span-6">
@@ -37,5 +34,10 @@
       </label>
       <small class="hint">Se desativar, o benefício permanece salvo mas não fica ativo.</small>
     </div>
+    <div class="field span-12">
+       <div *ngIf="success" class="alert success">{{ success }}</div>
+       <div *ngIf="error" class="alert error">{{ error }}</div>
+    </div>
   </form>
+  
 </section>
